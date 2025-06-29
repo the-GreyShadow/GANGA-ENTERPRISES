@@ -42,6 +42,68 @@
             transform: translateY(0);
         }
 
+        /* Image Popup Styles */
+        .image-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .image-popup.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-popup img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-popup .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .image-popup .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .clickable-image {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clickable-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
         /* Enhanced Navigation */
         .navbar {
             background: rgba(255, 255, 255, 0.95);
@@ -315,6 +377,36 @@
             box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
 
+        /* Advertisement Cards */
+        .ad-card {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .ad-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
+        }
+
+        .ad-card::after {
+            content: 'SPONSORED';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f59e0b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
         /* Statistics */
         .stat-number {
             font-size: 4rem;
@@ -565,12 +657,20 @@
         <div class="spinner"></div>
     </div>
 
+    <!-- Image Popup -->
+    <div class="image-popup" id="imagePopup">
+        <div class="close-btn" onclick="closeImagePopup()">
+            <i class="fas fa-times"></i>
+        </div>
+        <img id="popupImage" src="" alt="Popup Image">
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar fixed top-0 left-0 right-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="logo-container">
-                    <img src="https://page1.genspark.site/v1/base64_upload/3eade9555bfb4cdd0a1a865c2eaa5733" alt="GANGA ENTERPRISES" class="logo-image">
+                    <img src="" alt="GANGA ENTERPRISES" class="logo-image" id="logoImage">
                     <div class="ml-4">
                         <h1 class="text-xl font-bold text-gray-900">GANGA ENTERPRISES</h1>
                         <p class="text-xs text-blue-600 font-semibold">ISO 9001:2015 Certified</p>
@@ -595,6 +695,9 @@
                     <a href="#" class="nav-link" data-page="gallery">
                         <i class="fas fa-images mr-2"></i>Gallery
                     </a>
+                    <a href="#" class="nav-link" data-page="advertisements">
+                        <i class="fas fa-bullhorn mr-2"></i>Ads
+                    </a>
                     <a href="#" class="nav-link" data-page="contact">
                         <i class="fas fa-envelope mr-2"></i>Contact
                     </a>
@@ -614,6 +717,7 @@
             <a href="#" data-page="portfolio">Portfolio</a>
             <a href="#" data-page="clients">Clients</a>
             <a href="#" data-page="gallery">Gallery</a>
+            <a href="#" data-page="advertisements">Advertisements</a>
             <a href="#" data-page="contact">Contact</a>
         </div>
     </nav>
@@ -709,7 +813,7 @@
                         </div>
                     </div>
                     <div class="space-y-8">
-                        <img src="https://page1.genspark.site/v1/base64_upload/da50d8a3f1a0a1579958cf1dedb04be5" alt="About GANGA ENTERPRISES" class="enhanced-image w-full h-96 object-cover rounded-2xl">
+                        <img src="" alt="About GANGA ENTERPRISES" class="enhanced-image clickable-image w-full h-96 object-cover rounded-2xl" id="aboutImage">
                         <div class="grid grid-cols-2 gap-6">
                             <div class="enhanced-card text-center">
                                 <i class="fas fa-medal text-4xl text-yellow-500 mb-4"></i>
@@ -744,7 +848,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="service-card">
-                        <img src="https://page1.genspark.site/v1/base64_upload/a2d5568aa26a1373064a351e69f85c61" alt="Manpower Supply" class="w-full h-48 object-cover">
+                        <img src="" alt="Manpower Supply" class="w-full h-48 object-cover clickable-image" id="manpowerImage">
                         <div class="p-8">
                             <div class="service-icon">
                                 <i class="fas fa-users"></i>
@@ -759,7 +863,7 @@
                         </div>
                     </div>
                     <div class="service-card">
-                        <img src="https://page1.genspark.site/v1/base64_upload/af8021fb01472cd7f22a3168c97fd1e1" alt="Security Services" class="w-full h-48 object-cover">
+                        <img src="" alt="Security Services" class="w-full h-48 object-cover clickable-image" id="securityImage">
                         <div class="p-8">
                             <div class="service-icon">
                                 <i class="fas fa-shield-alt"></i>
@@ -774,7 +878,7 @@
                         </div>
                     </div>
                     <div class="service-card">
-                        <img src="https://page1.genspark.site/v1/base64_upload/da50d8a3f1a0a1579958cf1dedb04be5" alt="Civil Works" class="w-full h-48 object-cover">
+                        <img src="" alt="Civil Works" class="w-full h-48 object-cover clickable-image" id="civilImage">
                         <div class="p-8">
                             <div class="service-icon">
                                 <i class="fas fa-hard-hat"></i>
@@ -789,7 +893,7 @@
                         </div>
                     </div>
                     <div class="service-card">
-                        <img src="https://page1.genspark.site/v1/base64_upload/ed2b7b43a73ae5dca810c03c003a3ed2" alt="Catering Services" class="w-full h-48 object-cover">
+                        <img src="" alt="Catering Services" class="w-full h-48 object-cover clickable-image" id="cateringImage">
                         <div class="p-8">
                             <div class="service-icon">
                                 <i class="fas fa-utensils"></i>
@@ -804,7 +908,7 @@
                         </div>
                     </div>
                     <div class="service-card">
-                        <img src="https://saisecurity.in/wp-content/uploads/2025/01/ed007569-5d7a-46cb-b9cf-e2ca95234af7.jpeg" alt="IT Services" class="w-full h-48 object-cover">
+                        <img src="" alt="IT Services" class="w-full h-48 object-cover clickable-image" id="itImage">
                         <div class="p-8">
                             <div class="service-icon">
                                 <i class="fas fa-laptop-code"></i>
@@ -990,7 +1094,7 @@
                 <!-- Testimonial -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div class="enhanced-card">
-                        <img src="https://page1.genspark.site/v1/base64_upload/3d00c7289a34d921308a0063b1eeccf6" alt="NIT Jamshedpur Testimonial" class="w-full rounded-xl enhanced-image">
+                        <img src="" alt="NIT Jamshedpur Testimonial" class="w-full rounded-xl enhanced-image clickable-image" id="testimonialImage">
                     </div>
                     <div class="enhanced-card">
                         <div class="flex items-center mb-6">
@@ -1032,21 +1136,21 @@
                     <h3 class="text-3xl font-bold text-gray-900 mb-8 text-center">Our Certifications</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                         <div class="cert-card">
-                            <img src="https://page1.genspark.site/v1/base64_upload/6a174f812469bce9b23f7c06c3af3a96" alt="FSSAI Certificate" class="w-full h-64 object-cover">
+                            <img src="" alt="FSSAI Certificate" class="w-full h-64 object-cover clickable-image" id="fssaiCert">
                             <div class="p-6 text-center">
                                 <h4 class="text-xl font-bold text-gray-900 mb-2">FSSAI Registered</h4>
                                 <p class="text-gray-600">Food Safety and Standards Authority of India</p>
                             </div>
                         </div>
                         <div class="cert-card">
-                            <img src="https://page1.genspark.site/v1/base64_upload/4028c7964c089f52aa250322e9891770" alt="HACCP Certificate" class="w-full h-64 object-cover">
+                            <img src="" alt="HACCP Certificate" class="w-full h-64 object-cover clickable-image" id="haccpCert">
                             <div class="p-6 text-center">
                                 <h4 class="text-xl font-bold text-gray-900 mb-2">HACCP Certified</h4>
                                 <p class="text-gray-600">Hazard Analysis and Critical Control Points</p>
                             </div>
                         </div>
                         <div class="cert-card">
-                            <img src="https://page1.genspark.site/v1/base64_upload/8c6e48e1bd0d47eb8b0982f71b14798f" alt="ISO 22000:2018 Certificate" class="w-full h-64 object-cover">
+                            <img src="" alt="ISO 22000:2018 Certificate" class="w-full h-64 object-cover clickable-image" id="isoCert">
                             <div class="p-6 text-center">
                                 <h4 class="text-xl font-bold text-gray-900 mb-2">ISO 22000:2018</h4>
                                 <p class="text-gray-600">Food Safety Management Systems</p>
@@ -1090,26 +1194,192 @@
                     <h3 class="text-3xl font-bold text-gray-900 mb-8 text-center">Project Gallery</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div class="enhanced-card p-0 overflow-hidden">
-                            <img src="https://page1.genspark.site/v1/base64_upload/a2d5568aa26a1373064a351e69f85c61" alt="Manpower Solutions" class="w-full h-48 object-cover">
+                            <img src="" alt="Manpower Solutions" class="w-full h-48 object-cover clickable-image" id="galleryManpower">
                             <div class="p-6">
                                 <h4 class="text-lg font-bold mb-2">Manpower Solutions</h4>
                                 <p class="text-gray-600">Professional workforce deployment</p>
                             </div>
                         </div>
                         <div class="enhanced-card p-0 overflow-hidden">
-                            <img src="https://page1.genspark.site/v1/base64_upload/af8021fb01472cd7f22a3168c97fd1e1" alt="Security Services" class="w-full h-48 object-cover">
+                            <img src="" alt="Security Services" class="w-full h-48 object-cover clickable-image" id="gallerySecurity">
                             <div class="p-6">
                                 <h4 class="text-lg font-bold mb-2">Security Services</h4>
                                 <p class="text-gray-600">Professional security personnel</p>
                             </div>
                         </div>
                         <div class="enhanced-card p-0 overflow-hidden">
-                            <img src="https://page1.genspark.site/v1/base64_upload/ed2b7b43a73ae5dca810c03c003a3ed2" alt="Catering Excellence" class="w-full h-48 object-cover">
+                            <img src="" alt="Catering Excellence" class="w-full h-48 object-cover clickable-image" id="galleryCatering">
                             <div class="p-6">
                                 <h4 class="text-lg font-bold mb-2">Catering Excellence</h4>
                                 <p class="text-gray-600">Quality food service management</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Advertisements Page -->
+    <div class="page" id="advertisements">
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black text-gray-900 mb-6">Partner Advertisements</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">Discover premium services and solutions from our trusted industry partners</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Security Equipment Ad -->
+                    <div class="ad-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-shield-alt text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900">SecureMax Solutions</h3>
+                                    <p class="text-sm text-gray-600">Premium Security Equipment</p>
+                                </div>
+                            </div>
+                            <img src="" alt="Security Equipment" class="w-full h-32 object-cover rounded-lg mb-4 clickable-image" id="adSecurityEquip">
+                            <p class="text-gray-700 mb-4">Professional grade security cameras, access control systems, and surveillance equipment for complete protection.</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-green-600 font-bold">Starting ₹15,000</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Training Institute Ad -->
+                    <div class="ad-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900">SkillCraft Institute</h3>
+                                    <p class="text-sm text-gray-600">Professional Training Center</p>
+                                </div>
+                            </div>
+                            <img src="" alt="Training Institute" class="w-full h-32 object-cover rounded-lg mb-4 clickable-image" id="adTraining">
+                            <p class="text-gray-700 mb-4">Certified training programs for security personnel, hospitality staff, and technical professionals.</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-green-600 font-bold">From ₹5,000</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Certification Body Ad -->
+                    <div class="ad-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-certificate text-green-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900">CertifyPro Services</h3>
+                                    <p class="text-sm text-gray-600">ISO & Quality Certifications</p>
+                                </div>
+                            </div>
+                            <img src="" alt="Certification Services" class="w-full h-32 object-cover rounded-lg mb-4 clickable-image" id="adCertification">
+                            <p class="text-gray-700 mb-4">Get ISO 9001:2015, HACCP, and other quality certifications for your organization.</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-green-600 font-bold">Starting ₹25,000</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Get Quote
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recruitment Agency Ad -->
+                    <div class="ad-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-users text-purple-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900">TalentHub Recruitment</h3>
+                                    <p class="text-sm text-gray-600">Executive Search Specialists</p>
+                                </div>
+                            </div>
+                            <img src="" alt="Recruitment Services" class="w-full h-32 object-cover rounded-lg mb-4 clickable-image" id="adRecruitment">
+                            <p class="text-gray-700 mb-4">Find top-tier professionals for your organization with our executive search and recruitment services.</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-green-600 font-bold">Success Fee Only</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Contact Us
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Safety Equipment Ad -->
+                    <div class="ad-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-hard-hat text-yellow-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900">SafetyFirst Equipment</h3>
+                                    <p class="text-sm text-gray-600">Industrial Safety Solutions</p>
+                                </div>
+                            </div>
+                            <img src="" alt="Safety Equipment" class="w-full h-32 object-cover rounded-lg mb-4 clickable-image" id="adSafety">
+                            <p class="text-gray-700 mb-4">Complete range of safety equipment including helmets, gloves, safety shoes, and protective gear.</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-green-600 font-bold">Bulk Discounts</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Shop Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Industrial Services Ad -->
+                    <div class="ad-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-industry text-indigo-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900">IndustrialPro Services</h3>
+                                    <p class="text-sm text-gray-600">Complete Industrial Solutions</p>
+                                </div>
+                            </div>
+                            <img src="" alt="Industrial Services" class="w-full h-32 object-cover rounded-lg mb-4 clickable-image" id="adIndustrial">
+                            <p class="text-gray-700 mb-4">Maintenance, repair, and operational services for industrial facilities and manufacturing plants.</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-green-600 font-bold">24/7 Support</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Call Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advertisement Banner -->
+                <div class="mt-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-center text-white">
+                    <h3 class="text-3xl font-bold mb-4">Want to Advertise Here?</h3>
+                    <p class="text-xl mb-6">Reach thousands of potential customers in the manpower and industrial services sector</p>
+                    <div class="flex justify-center space-x-4">
+                        <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                            <i class="fas fa-bullhorn mr-2"></i>Advertise With Us
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                            <i class="fas fa-phone mr-2"></i>Contact Sales
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1222,7 +1492,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center mb-6">
-                        <img src="https://page1.genspark.site/v1/base64_upload/3eade9555bfb4cdd0a1a865c2eaa5733" alt="GANGA ENTERPRISES" class="h-12 w-12 rounded-full mr-4">
+                        <img src="" alt="GANGA ENTERPRISES" class="h-12 w-12 rounded-full mr-4" id="footerLogo">
                         <div>
                             <h3 class="text-2xl font-bold">GANGA ENTERPRISES</h3>
                             <p class="text-gray-300">ISO 9001:2015 Certified</p>
@@ -1272,6 +1542,102 @@
     </footer>
 
     <script>
+        // Image Configuration - Centralized Image Management
+        const IMAGES = {
+            logo: 'https://page1.genspark.site/v1/base64_upload/3eade9555bfb4cdd0a1a865c2eaa5733',
+            hero: 'https://page1.genspark.site/v1/base64_upload/a2d5568aa26a1373064a351e69f85c61',
+            about: 'https://page1.genspark.site/v1/base64_upload/da50d8a3f1a0a1579958cf1dedb04be5',
+            manpower: 'https://page1.genspark.site/v1/base64_upload/a2d5568aa26a1373064a351e69f85c61',
+            security: 'https://page1.genspark.site/v1/base64_upload/af8021fb01472cd7f22a3168c97fd1e1',
+            civil: 'https://page1.genspark.site/v1/base64_upload/da50d8a3f1a0a1579958cf1dedb04be5',
+            catering: 'https://page1.genspark.site/v1/base64_upload/ed2b7b43a73ae5dca810c03c003a3ed2',
+            it: 'https://saisecurity.in/wp-content/uploads/2025/01/ed007569-5d7a-46cb-b9cf-e2ca95234af7.jpeg',
+            testimonial: 'https://page1.genspark.site/v1/base64_upload/3d00c7289a34d921308a0063b1eeccf6',
+            fssaiCert: 'https://page1.genspark.site/v1/base64_upload/6a174f812469bce9b23f7c06c3af3a96',
+            haccpCert: 'https://page1.genspark.site/v1/base64_upload/4028c7964c089f52aa250322e9891770',
+            isoCert: 'https://page1.genspark.site/v1/base64_upload/8c6e48e1bd0d47eb8b0982f71b14798f',
+            // Advertisement images (using existing images as placeholders)
+            adSecurityEquip: 'https://page1.genspark.site/v1/base64_upload/af8021fb01472cd7f22a3168c97fd1e1',
+            adTraining: 'https://page1.genspark.site/v1/base64_upload/da50d8a3f1a0a1579958cf1dedb04be5',
+            adCertification: 'https://page1.genspark.site/v1/base64_upload/6a174f812469bce9b23f7c06c3af3a96',
+            adRecruitment: 'https://page1.genspark.site/v1/base64_upload/a2d5568aa26a1373064a351e69f85c61',
+            adSafety: 'https://page1.genspark.site/v1/base64_upload/af8021fb01472cd7f22a3168c97fd1e1',
+            adIndustrial: 'https://page1.genspark.site/v1/base64_upload/da50d8a3f1a0a1579958cf1dedb04be5'
+        };
+
+        // Initialize Images
+        function initImages() {
+            // Set all images using the centralized configuration
+            document.getElementById('logoImage').src = IMAGES.logo;
+            document.getElementById('aboutImage').src = IMAGES.about;
+            document.getElementById('manpowerImage').src = IMAGES.manpower;
+            document.getElementById('securityImage').src = IMAGES.security;
+            document.getElementById('civilImage').src = IMAGES.civil;
+            document.getElementById('cateringImage').src = IMAGES.catering;
+            document.getElementById('itImage').src = IMAGES.it;
+            document.getElementById('testimonialImage').src = IMAGES.testimonial;
+            document.getElementById('fssaiCert').src = IMAGES.fssaiCert;
+            document.getElementById('haccpCert').src = IMAGES.haccpCert;
+            document.getElementById('isoCert').src = IMAGES.isoCert;
+            document.getElementById('galleryManpower').src = IMAGES.manpower;
+            document.getElementById('gallerySecurity').src = IMAGES.security;
+            document.getElementById('galleryCatering').src = IMAGES.catering;
+            document.getElementById('footerLogo').src = IMAGES.logo;
+            
+            // Advertisement images
+            document.getElementById('adSecurityEquip').src = IMAGES.adSecurityEquip;
+            document.getElementById('adTraining').src = IMAGES.adTraining;
+            document.getElementById('adCertification').src = IMAGES.adCertification;
+            document.getElementById('adRecruitment').src = IMAGES.adRecruitment;
+            document.getElementById('adSafety').src = IMAGES.adSafety;
+            document.getElementById('adIndustrial').src = IMAGES.adIndustrial;
+
+            // Update hero section background
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                heroSection.style.backgroundImage = `linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('${IMAGES.hero}')`;
+            }
+        }
+
+        // Image Popup Functions
+        function openImagePopup(imageSrc) {
+            const popup = document.getElementById('imagePopup');
+            const popupImage = document.getElementById('popupImage');
+            popupImage.src = imageSrc;
+            popup.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImagePopup() {
+            const popup = document.getElementById('imagePopup');
+            popup.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Initialize Image Click Handlers
+        function initImageClickHandlers() {
+            const clickableImages = document.querySelectorAll('.clickable-image');
+            clickableImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    openImagePopup(img.src);
+                });
+            });
+
+            // Close popup when clicking outside the image
+            document.getElementById('imagePopup').addEventListener('click', (e) => {
+                if (e.target.id === 'imagePopup') {
+                    closeImagePopup();
+                }
+            });
+
+            // Close popup with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeImagePopup();
+                }
+            });
+        }
+
         // Page Navigation System
         function initNavigation() {
             const navLinks = document.querySelectorAll('.nav-link, .mobile-menu a');
@@ -1476,6 +1842,8 @@
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             hideLoading();
+            initImages();
+            initImageClickHandlers();
             initNavigation();
             initMobileMenu();
             initNavbarScroll();
